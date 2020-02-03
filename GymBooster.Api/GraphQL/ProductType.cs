@@ -8,7 +8,7 @@ namespace GymBooster.Api.GraphQL
         public ProductType()
         {
             Field(t => t.Id);
-            Field(t => t.Name);
+            Field(t => t.Name).Description("Product name");
             Field(t => t.Description);
         }
     }

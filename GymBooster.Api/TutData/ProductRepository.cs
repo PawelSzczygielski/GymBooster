@@ -13,9 +13,9 @@ namespace CarvedRock.Api.Data
             _dbContext = dbContext;
         }
 
-        public Task<List<Product>> GetAll()
+        public List<Product> GetAll()
         {
-            return new Task<List<Product>>(() => _dbContext.Products);
+            return _dbContext.Products;
         }
     }
 }
