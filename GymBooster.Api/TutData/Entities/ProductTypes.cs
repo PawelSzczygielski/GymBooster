@@ -1,6 +1,6 @@
 ﻿namespace GymBooster.Api.Models
 {
-    public enum ProductType
+    public enum ProductTypes
     {
         Boots,
         ClimbingGear,

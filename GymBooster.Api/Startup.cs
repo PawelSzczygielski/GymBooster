@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.Extensions.Logging;
 
 namespace GymBooster.Api
 {
@@ -28,15 +30,18 @@ namespace GymBooster.Api
 
             services.AddSingleton<CarvedRockDbContext>();
             services.AddScoped<ProductRepository>();
+            services.AddScoped<ProductReviewRepository>();
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<CarvedRockSchema>();
+            services.AddLogging();
 
             services.AddGraphQL(o =>
                 {
                     o.ExposeExceptions = true;
                     o.EnableMetrics = true;
                 })
-                .AddGraphTypes(ServiceLifetime.Scoped);
+                .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddDataLoader();
 
             services.Configure<IISServerOptions>(options =>
             {

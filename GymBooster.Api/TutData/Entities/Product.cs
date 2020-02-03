@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +10,7 @@ namespace GymBooster.Api.Models
     public int Id { get; set; }
     [StringLength(100)]
     public string Name { get; set; }
-    public ProductType Type { get; set; }
+    public ProductTypes Type { get; set; }
     public string Description { get; set; }
     [Column(TypeName="decimal(18,2)")]
     public decimal Price { get; set; }
@@ -18,5 +19,6 @@ namespace GymBooster.Api.Models
     public DateTimeOffset IntroducedAt { get; set; }
     [StringLength(100)]
     public string PhotoFileName { get; set; }
+    public List<ProductReview> ProductReviews { get; set; } = new List<ProductReview>();
     }
 }
