@@ -18,6 +18,13 @@ namespace GymBooster.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var config = new ServerConfig();
+            Configuration.Bind(config);
+
+            var trainingContext = new TrainingContext(config.MongoDB);
+            var repo = new TrainingRepository(trainingContext);
+            services.AddSingleton<ITrainingRepository>(repo);
+            
             services.AddControllers();
         }
 

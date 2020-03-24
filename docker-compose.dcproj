@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>668645b9-101d-4e56-ac6d-1922001f69c9</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/training</DockerServiceUrl>
     <DockerServiceName>gymbooster.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
