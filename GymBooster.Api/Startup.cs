@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace GymBooster.Api
 {
@@ -24,8 +25,18 @@ namespace GymBooster.Api
             var trainingContext = new TrainingContext(config.MongoDB);
             var repo = new TrainingRepository(trainingContext);
             services.AddSingleton<ITrainingRepository>(repo);
-            
+                       
             services.AddControllers();
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "GymBooster API",
+                    Version = "v1",
+                    Description = "GymBooster API",
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +56,12 @@ namespace GymBooster.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GymBooster API V1");
             });
         }
     }
