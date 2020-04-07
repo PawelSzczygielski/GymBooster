@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using GymBooster.Api.DTO;
 using GymBooster.CommonUtils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,22 +12,21 @@ namespace GymBooster.Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries;
-        private static readonly SortedDictionary<DateTime, WeatherForecast> wholeForecast;
+        private static readonly SortedDictionary<DateTime, WeatherForecastDTO> WholeForecast;
 
         static WeatherForecastController()
         {
-            Summaries = new[]
+            var summaries = new[]
             {
                 "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
             };
 
             Random rng = new Random();
-            wholeForecast = new SortedDictionary<DateTime, WeatherForecast>(Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            WholeForecast = new SortedDictionary<DateTime, WeatherForecastDTO>(Enumerable.Range(1, 5).Select(index => new WeatherForecastDTO
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary = summaries[rng.Next(summaries.Length)]
             }).ToDictionary(k => k.Date.Date, v => v));
         }
 
@@ -40,16 +39,16 @@ namespace GymBooster.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<WeatherForecast>> Get()
+        public ActionResult<IEnumerable<WeatherForecastDTO>> Get()
         {
-            return Ok(wholeForecast.Values);
+            return Ok(WholeForecast.Values);
         }
 
         [HttpGet("{date}")]
-        public ActionResult<WeatherForecast> Get([DateTimeModelBinder(DateFormat = GlobalConstants.UnifiedDateFormat)] DateTime? date)
+        public ActionResult<WeatherForecastDTO> Get([DateTimeModelBinder(DateFormat = GlobalConstants.UnifiedDateFormat)] DateTime? date)
         {
             _logger.LogWarning("");
-            var prognosisFound = wholeForecast.TryGetValue(date.Value.Date, out WeatherForecast dailyPrognosis);
+            var prognosisFound = WholeForecast.TryGetValue(date.Value.Date, out WeatherForecastDTO dailyPrognosis);
             if (!prognosisFound)
                 NotFound(date);
 
@@ -57,34 +56,34 @@ namespace GymBooster.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<WeatherForecast> PostWeatherForecast(WeatherForecast prognosis)
+        public ActionResult<WeatherForecastDTO> PostWeatherForecast(WeatherForecastDTO prognosis)
         {
-            if (wholeForecast.ContainsKey(prognosis.Date))
+            if (WholeForecast.ContainsKey(prognosis.Date))
                 return UnprocessableEntity($"Forecast for {prognosis.Date} already exist");
 
-            wholeForecast.Add(prognosis.Date.Date, prognosis);
+            WholeForecast.Add(prognosis.Date.Date, prognosis);
             return CreatedAtAction(nameof(PostWeatherForecast), new { prognosis.Date.Date }, prognosis);
         }
 
         [HttpPut]
-        public ActionResult<WeatherForecast> PutWeatherForecast(WeatherForecast prognosis)
+        public ActionResult<WeatherForecastDTO> PutWeatherForecast(WeatherForecastDTO prognosis)
         {
             if (!ModelState.IsValid) //todo investigate: what's this and how to use it? https://www.devtrends.co.uk/blog/handling-errors-in-asp.net-core-web-api
             {
                 BadRequest();
             }
 
-            wholeForecast[prognosis.Date] = prognosis;
+            WholeForecast[prognosis.Date] = prognosis;
             return Ok(prognosis);
         }
 
         [HttpDelete("{date}")]
         public ActionResult DeleteWeatherForecast([DateTimeModelBinder(DateFormat = GlobalConstants.UnifiedDateFormat)] DateTime? date)
         {
-            if (!wholeForecast.ContainsKey(date.Value))
+            if (!WholeForecast.ContainsKey(date.Value))
                 return NotFound();
 
-            wholeForecast.Remove(date.Value);
+            WholeForecast.Remove(date.Value);
             return NoContent();
         }
     }

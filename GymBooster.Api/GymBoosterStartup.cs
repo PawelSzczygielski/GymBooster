@@ -1,3 +1,5 @@
+using GymBooster.DatabaseAccess;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,22 +9,22 @@ using Microsoft.OpenApi.Models;
 
 namespace GymBooster.Api
 {
-    public class Startup
+    public class GymBoosterStartup
     {
-        public Startup(IConfiguration configuration)
+        public GymBoosterStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        [UsedImplicitly]
         public void ConfigureServices(IServiceCollection services)
         {
             var config = new ServerConfig();
             Configuration.Bind(config);
 
-            var trainingContext = new TrainingContext(config.MongoDB);
+            var trainingContext = new TrainingContext(config.MongoDb);
             var repo = new TrainingRepository(trainingContext);
             services.AddSingleton<ITrainingRepository>(repo);
                        
@@ -30,16 +32,15 @@ namespace GymBooster.Api
             
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                c.SwaggerDoc("GymBoosterAPI", new OpenApiInfo
                 {
                     Title = "GymBooster API",
-                    Version = "v1",
                     Description = "GymBooster API",
                 });
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [UsedImplicitly]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -61,7 +62,7 @@ namespace GymBooster.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GymBooster API V1");
+                c.SwaggerEndpoint("/swagger/GymBoosterAPI/swagger.json", "GymBooster API");
             });
         }
     }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using GymBooster.DatabaseAccess;
+using GymBooster.DatabaseAccess.DbModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymBooster.Api.Controllers
@@ -18,13 +17,13 @@ namespace GymBooster.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Training>>> Get()
+        public async Task<ActionResult<IEnumerable<TrainingDbModel>>> Get()
         {
             return new ObjectResult(await _repo.GetAllTrainings());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Training>> Get(long id)
+        public async Task<ActionResult<TrainingDbModel>> Get(long id)
         {
             var todo = await _repo.GetTraining(id);
             if (todo == null)
@@ -34,7 +33,7 @@ namespace GymBooster.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Training>> Post([FromBody] Training training)
+        public async Task<ActionResult<TrainingDbModel>> Post([FromBody] TrainingDbModel training)
         {
             training.Id = await _repo.GetNextId();
             await _repo.Create(training);
@@ -42,7 +41,7 @@ namespace GymBooster.Api.Controllers
         }
         // PUT api/todos/1
         [HttpPut("{id}")]
-        public async Task<ActionResult<Training>> Put(long id, [FromBody] Training training)
+        public async Task<ActionResult<TrainingDbModel>> Put(long id, [FromBody] TrainingDbModel training)
         {
             var todoFromDb = await _repo.GetTraining(id);
             if (todoFromDb == null)

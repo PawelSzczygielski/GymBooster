@@ -1,5 +1,4 @@
-﻿using GymBooster.CommonUtils;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 

@@ -1,13 +1,13 @@
-using GymBooster.CommonUtils;
-using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using GymBooster.CommonUtils;
+using Newtonsoft.Json;
 
-namespace GymBooster.Api
+namespace GymBooster.Api.DTO
 {
-    public class WeatherForecast
+    public class WeatherForecastDTO
     {
-        [JsonConverterAttribute(typeof(CustomDateTimeConverter), new object[] { GlobalConstants.UnifiedDateFormat})]
+        [JsonConverter(typeof(CustomDateTimeConverter), new object[] { GlobalConstants.UnifiedDateFormat})]
         public DateTime Date { get; set; }
 
         public int TemperatureC { get; set; }

@@ -5,15 +5,16 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using GymBooster.Api.DTO;
 using Xunit;
 
 namespace GymBooster.Api.IntegrationTests
 {
-    public class WeatherForecastControllerTests : IClassFixture<TestConfigurator<Startup>>
+    public class WeatherForecastControllerTests : IClassFixture<TestConfigurator<GymBoosterStartup>>
     {
         private HttpClient _httpClient;
                 
-        public WeatherForecastControllerTests(TestConfigurator<Startup> fixture)
+        public WeatherForecastControllerTests(TestConfigurator<GymBoosterStartup> fixture)
         {
             _httpClient = fixture.HttpClient;
         }
@@ -108,7 +109,7 @@ namespace GymBooster.Api.IntegrationTests
             var postResponse = await _httpClient.PostAsync(postRequest.Url, ContentHelper.GetStringContent(postRequest.Body));
             var jsonFromPostResponse = await postResponse.Content.ReadAsStringAsync();
 
-            var weatherForecast = JsonConvert.DeserializeObject<WeatherForecast>(jsonFromPostResponse);
+            var weatherForecast = JsonConvert.DeserializeObject<WeatherForecastDTO>(jsonFromPostResponse);
 
             var deleteResponse = await _httpClient.DeleteAsync($"/WeatherForecast/{weatherForecast.Date.ToString(GlobalConstants.UnifiedDateFormat)}");
 
