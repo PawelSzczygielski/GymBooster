@@ -6,6 +6,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using GymBooster.Api.DTO;
+using GymBooster.Api.Infrastructure;
 using Xunit;
 
 namespace GymBooster.Api.IntegrationTests

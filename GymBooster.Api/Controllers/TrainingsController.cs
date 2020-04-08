@@ -8,13 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GymBooster.Api.Controllers
 {
+    [ApiController]
     [Produces("application/json")]
     [Route("api/[Controller]")]
-    public class TrainingController : Controller
+    public class TrainingsController : Controller
     {
         private readonly IMapper _mapper;
         private readonly ITrainingRepository _repo;
-        public TrainingController(ITrainingRepository repo, IMapper mapper)
+        public TrainingsController(ITrainingRepository repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;

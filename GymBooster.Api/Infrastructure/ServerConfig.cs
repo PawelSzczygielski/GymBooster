@@ -1,4 +1,6 @@
-﻿namespace GymBooster.Api
+﻿using GymBooster.DatabaseAccess;
+
+namespace GymBooster.Api.Infrastructure
 {
     public class ServerConfig
     {

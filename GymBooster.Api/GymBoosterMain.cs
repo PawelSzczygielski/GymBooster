@@ -1,3 +1,4 @@
+using GymBooster.Api.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 

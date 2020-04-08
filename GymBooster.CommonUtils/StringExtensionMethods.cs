@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace GymBooster.CommonUtils
 {
@@ -53,6 +55,11 @@ namespace GymBooster.CommonUtils
             }
 
             return null;
-        }        
+        }
+
+        public static T DeserializeJson<T>(this string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
     }
 }
