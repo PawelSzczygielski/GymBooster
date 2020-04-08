@@ -1,3 +1,4 @@
+using AutoMapper;
 using GymBooster.DatabaseAccess;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
@@ -38,6 +39,8 @@ namespace GymBooster.Api
                     Description = "GymBooster API",
                 });
             });
+
+            services.AddAutoMapper(typeof(GymBoosterStartup));
         }
 
         [UsedImplicitly]
