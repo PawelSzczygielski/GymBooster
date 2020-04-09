@@ -36,15 +36,17 @@ namespace GymBooster.Api.Controllers
             if (training == null)
                 return new NotFoundResult();
 
-            return new ObjectResult(_mapper.Map<TrainingDTO>(training));
+            TrainingDTO trainingDTO = _mapper.Map<TrainingDTO>(training);
+            return new ObjectResult(trainingDTO);
         }
 
         [HttpPost]
         public async Task<ActionResult<TrainingDTO>> Post([FromBody] CreateTrainingDTO training)
         {
             CreateTrainingDbModel createTrainingDbData = _mapper.Map<CreateTrainingDbModel>(training);
-            await _repo.Create(createTrainingDbData);
-            return new OkObjectResult(training);
+            TrainingDbModel addedTraining = await _repo.Create(createTrainingDbData);
+            TrainingDTO trainingDTO = _mapper.Map<TrainingDTO>(addedTraining);
+            return new OkObjectResult(trainingDTO);
         }
 
         [HttpPut("{id}")]

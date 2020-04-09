@@ -10,6 +10,9 @@ namespace GymBooster.Api.Infrastructure
         {
             CreateMap<CreateTrainingDTO, CreateTrainingDbModel>()
                 .ConstructUsing(dto => new CreateTrainingDbModel(dto.Title, dto.Content));
+
+            CreateMap<TrainingDbModel, TrainingDTO>()
+                .ConstructUsing(model => new TrainingDTO(model.Id, model.Title, model.Content));
         }
     }
 }
