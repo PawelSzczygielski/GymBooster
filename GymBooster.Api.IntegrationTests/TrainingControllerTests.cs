@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using GymBooster.Api.DTO;
 using GymBooster.Api.Infrastructure;
 using GymBooster.Api.IntegrationTests.Infrastructure;
@@ -35,14 +37,13 @@ namespace GymBooster.Api.IntegrationTests
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal(trainingToAdd.Title, addedTraining.Title);
-            Assert.Equal(trainingToAdd.Content, addedTraining.Content);
+            trainingToAdd.Title.Should().BeEquivalentTo(addedTraining.Title);
+            trainingToAdd.Content.Should().BeEquivalentTo(addedTraining.Content);
         }
 
         [Fact]
         public async Task Training_Is_Stored_And_Can_Be_Obtained()
         {
-            // Arrange
             var postRequest = new
             {
                 Url = "api/Trainings",
@@ -53,7 +54,8 @@ namespace GymBooster.Api.IntegrationTests
                 }
             };
 
-            var postResponse = await _httpClient.PostAsync(postRequest.Url, ContentHelper.GetStringContent(postRequest.Body));
+            var postResponse =
+                await _httpClient.PostAsync(postRequest.Url, ContentHelper.GetStringContent(postRequest.Body));
             var stringPostResponse = await postResponse.Content.ReadAsStringAsync();
             var addedTraining = stringPostResponse.DeserializeJson<TrainingDTO>();
             postResponse.EnsureSuccessStatusCode();
@@ -66,7 +68,58 @@ namespace GymBooster.Api.IntegrationTests
             string stringGetResponse = await getResponse.Content.ReadAsStringAsync();
             var obtainedTraining = stringGetResponse.DeserializeJson<TrainingDTO>();
 
-            Assert.Equal(addedTraining, obtainedTraining);
+            addedTraining.Should().BeEquivalentTo(obtainedTraining);
+        }
+
+        [Fact]
+        public async void Training_Can_Be_Updated()
+        {
+
+            var postRequest = new
+            {
+                Url = "api/Trainings",
+                Body = new
+                {
+                    Title = "Training1",
+                    Content = "Exemplary content"
+                }
+            };
+
+            var postResponse =
+                await _httpClient.PostAsync(postRequest.Url, ContentHelper.GetStringContent(postRequest.Body));
+            var postStringContent = await postResponse.Content.ReadAsStringAsync();
+            var addedTraining = postStringContent.DeserializeJson<TrainingDTO>();
+
+            TrainingDTO trainingToUpdate = new TrainingDTO(addedTraining.Id, "updatedTitle", "updatedContent");
+            var putRequest = new
+            {
+                Url = "api/Trainings",
+                Body = trainingToUpdate
+            };
+
+            var putResponse =
+                await _httpClient.PutAsync(putRequest.Url, ContentHelper.GetStringContent(putRequest.Body));
+
+            putResponse.EnsureSuccessStatusCode();
+            var putStringContent = await putResponse.Content.ReadAsStringAsync();
+            var updatedTraining = putStringContent.DeserializeJson<TrainingDTO>();
+
+            trainingToUpdate.Should().BeEquivalentTo(updatedTraining);
+        }
+
+        [Fact]
+        public async void Querying_For_NonExisting_Training_Returns_Proper_Core()
+        {
+            var getRequestPath = $"api/Trainings/NonExistingId";
+
+            HttpResponseMessage getResponse = await _httpClient.GetAsync(getRequestPath);
+
+            getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            string stringGetResponse = await getResponse.Content.ReadAsStringAsync();
+            var obtainedTraining = stringGetResponse.DeserializeJson<TrainingDTO>();
+
+            obtainedTraining.Should().BeNull();
         }
     }
 }

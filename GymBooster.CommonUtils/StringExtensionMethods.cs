@@ -59,7 +59,16 @@ namespace GymBooster.CommonUtils
 
         public static T DeserializeJson<T>(this string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            string errorMsg = null;
+            T deserializedObject = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
+            {
+                Error = (sender, args) =>
+                {
+                    errorMsg = args.ErrorContext.Error.Message;
+                    args.ErrorContext.Handled = true;
+                }, //todo: handle this properly with logger or sth.
+            });
+            return string.IsNullOrEmpty(errorMsg) ? deserializedObject : default(T);
         }
     }
 }

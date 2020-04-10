@@ -30,7 +30,7 @@ namespace GymBooster.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TrainingDTO>> Get(long id)
+        public async Task<ActionResult<TrainingDTO>> Get(string id)
         {
             TrainingDbModel training = await _repo.GetTraining(id);
             if (training == null)
@@ -49,19 +49,20 @@ namespace GymBooster.Api.Controllers
             return new OkObjectResult(trainingDTO);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult<TrainingDTO>> Put([FromBody] TrainingDTO incomingTraining)
         {
             bool trainingExists = await _repo.Exists(incomingTraining.Id);
             if (!trainingExists)
                 return new NotFoundResult();
 
-            await _repo.Update(_mapper.Map<TrainingDbModel>(incomingTraining));
+            TrainingDbModel trainingDbModel = _mapper.Map<TrainingDbModel>(incomingTraining);
+            await _repo.Update(trainingDbModel);
             return new OkObjectResult(incomingTraining);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(string id)
         {
             TrainingDbModel post = await _repo.GetTraining(id);
             if (post == null)
@@ -71,5 +72,5 @@ namespace GymBooster.Api.Controllers
         }
     }
 
-    
+
 }

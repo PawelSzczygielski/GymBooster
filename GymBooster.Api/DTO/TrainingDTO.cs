@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace GymBooster.Api.DTO
 {
+    [DebuggerDisplay("{" + nameof(ToString) + "()}")]
     public class TrainingDTO : IEquatable<TrainingDTO>
     {
-        public long Id { get;  }
-        public string Title { get;  }
-        public string Content { get; }
+        [JsonProperty(Required = Required.Always)]
+        public string Id { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Content { get; set; }
 
         protected TrainingDTO()
         {
         }
 
-        public TrainingDTO(long id, string title, string content)
+        public TrainingDTO(string id, string title, string content)
         {
             Id = id;
             Title = title;
@@ -37,6 +43,11 @@ namespace GymBooster.Api.DTO
         public override int GetHashCode()
         {
             return HashCode.Combine(Id, Title, Content);
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} | {Title} | {Content}";
         }
     }
 }

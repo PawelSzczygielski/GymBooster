@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using GymBooster.DatabaseAccess;
 using JetBrains.Annotations;
@@ -28,8 +29,9 @@ namespace GymBooster.Api.Infrastructure
             var trainingContext = new TrainingContext(config.MongoDb);
             var repo = new TrainingRepository(trainingContext);
             services.AddSingleton<ITrainingRepository>(repo);
-                       
+
             services.AddControllers();
+                //.AddJsonOptions(options => options.JsonSerializerOptions= new JsonSerializerOptions(){});
             
             services.AddSwaggerGen(c =>
             {
