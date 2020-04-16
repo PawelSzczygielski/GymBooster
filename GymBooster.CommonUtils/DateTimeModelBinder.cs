@@ -8,7 +8,7 @@ namespace GymBooster.CommonUtils
 {
     public class DateTimeModelBinder : IModelBinder
     {
-        public static readonly Type[] SupportedTypes = new Type[] { typeof(DateTime), typeof(DateTime?) };
+        public static readonly Type[] SupportedTypes = new[] { typeof(DateTime), typeof(DateTime?) };
 
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
@@ -43,7 +43,7 @@ namespace GymBooster.CommonUtils
             if (string.IsNullOrWhiteSpace(dateFormat))
                 return dateToParse.ParseDateTime();
 
-            return dateToParse.ParseDateTime(new string[] { dateFormat });
+            return dateToParse.ParseDateTime(new[] { dateFormat });
         }
 
         private DateTimeModelBinderAttribute GetDateTimeModelBinderAttribute(ModelBindingContext bindingContext)

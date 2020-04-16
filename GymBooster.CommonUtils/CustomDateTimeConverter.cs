@@ -53,7 +53,7 @@ namespace GymBooster.CommonUtils
                 return dateToParse.ParseDateTime();
             }
 
-            return dateToParse.ParseDateTime(new string[] { _dateFormat });
+            return dateToParse.ParseDateTime(new[] { _dateFormat });
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

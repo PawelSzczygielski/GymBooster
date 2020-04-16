@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -11,7 +10,7 @@ namespace GymBooster.CommonUtils
         public static DateTime? ParseDateTime(this string dateToParse, string[] formats = null,
             IFormatProvider provider = null, DateTimeStyles styles = DateTimeStyles.None)
         {
-            var CustomDateFormats = new string[]
+            var customDateFormats = new[]
                 {
                 "yyyyMMddTHHmmssZ",
                 "yyyyMMddTHHmmZ",
@@ -29,7 +28,7 @@ namespace GymBooster.CommonUtils
 
             if (formats == null || !formats.Any())
             {
-                formats = CustomDateFormats;
+                formats = customDateFormats;
             }
 
             DateTime validDate;

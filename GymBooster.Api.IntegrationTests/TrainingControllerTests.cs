@@ -38,7 +38,6 @@ namespace GymBooster.Api.IntegrationTests
             // Assert
             response.EnsureSuccessStatusCode();
             trainingToAdd.Title.Should().BeEquivalentTo(addedTraining.Title);
-            trainingToAdd.Content.Should().BeEquivalentTo(addedTraining.Content);
         }
 
         [Fact]
@@ -90,10 +89,10 @@ namespace GymBooster.Api.IntegrationTests
             var postStringContent = await postResponse.Content.ReadAsStringAsync();
             var addedTraining = postStringContent.DeserializeJson<TrainingDTO>();
 
-            TrainingDTO trainingToUpdate = new TrainingDTO(addedTraining.Id, "updatedTitle", "updatedContent");
+            TrainingDTO trainingToUpdate = new TrainingDTO(addedTraining.Id, "updatedTitle");
             var putRequest = new
             {
-                Url = "api/Trainings",
+                Url = $"api/Trainings/{trainingToUpdate.Id}",
                 Body = trainingToUpdate
             };
 
@@ -120,6 +119,18 @@ namespace GymBooster.Api.IntegrationTests
             var obtainedTraining = stringGetResponse.DeserializeJson<TrainingDTO>();
 
             obtainedTraining.Should().BeNull();
+        }
+
+        [Fact]
+        public async void Series_Can_Be_Added_To_Training()
+        {
+
+        }
+
+        [Fact]
+        public async void Put_Can_Add_Training_If_Send_With_Valid_Id()
+        {
+
         }
     }
 }

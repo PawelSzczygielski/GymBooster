@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
@@ -9,27 +10,28 @@ namespace GymBooster.Api.DTO
     {
         [JsonProperty(Required = Required.Always)]
         public string Id { get; set; }
+
         [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
-        [JsonProperty(Required = Required.Always)]
-        public string Content { get; set; }
+        
+        public List<ExcerciseDTO> Excercises { get; set; }
 
         protected TrainingDTO()
         {
         }
 
-        public TrainingDTO(string id, string title, string content)
+        public TrainingDTO(string id, string title)
         {
             Id = id;
             Title = title;
-            Content = content;
+            Excercises = new List<ExcerciseDTO>();
         }
 
         public bool Equals(TrainingDTO other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Id == other.Id && Title == other.Title && Content == other.Content;
+            return Id == other.Id;
         }
 
         public override bool Equals(object obj)
@@ -42,12 +44,12 @@ namespace GymBooster.Api.DTO
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Title, Content);
+            return HashCode.Combine(Id);
         }
 
         public override string ToString()
         {
-            return $"{Id} | {Title} | {Content}";
+            return $"{Id} | {Title}";
         }
     }
 }

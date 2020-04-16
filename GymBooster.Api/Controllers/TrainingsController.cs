@@ -49,10 +49,13 @@ namespace GymBooster.Api.Controllers
             return new OkObjectResult(trainingDTO);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<TrainingDTO>> Put([FromBody] TrainingDTO incomingTraining)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TrainingDTO>> Put(string id, [FromBody] TrainingDTO incomingTraining)
         {
-            bool trainingExists = await _repo.Exists(incomingTraining.Id);
+            if(id != incomingTraining.Id)
+                return new BadRequestResult();
+
+            bool trainingExists = await _repo.Exists(id);
             if (!trainingExists)
                 return new NotFoundResult();
 

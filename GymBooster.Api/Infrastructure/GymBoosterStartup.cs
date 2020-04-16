@@ -1,4 +1,3 @@
-using System.Text.Json;
 using AutoMapper;
 using GymBooster.DatabaseAccess;
 using JetBrains.Annotations;
