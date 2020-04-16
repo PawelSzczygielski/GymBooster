@@ -41,10 +41,10 @@ namespace GymBooster.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<TrainingDTO>> Post([FromBody] CreateTrainingDTO training)
+        public async Task<ActionResult<TrainingDTO>> Post([FromBody] TrainingDTO training)
         {
-            CreateTrainingDbModel createTrainingDbData = _mapper.Map<CreateTrainingDbModel>(training);
-            TrainingDbModel addedTraining = await _repo.Create(createTrainingDbData);
+            TrainingDbModel trainingDbData = _mapper.Map<TrainingDbModel>(training);
+            TrainingDbModel addedTraining = await _repo.Create(trainingDbData);
             TrainingDTO trainingDTO = _mapper.Map<TrainingDTO>(addedTraining);
             return new OkObjectResult(trainingDTO);
         }
@@ -57,7 +57,7 @@ namespace GymBooster.Api.Controllers
 
             bool trainingExists = await _repo.Exists(id);
             if (!trainingExists)
-                return new NotFoundResult();
+                return await Post(incomingTraining);
 
             TrainingDbModel trainingDbModel = _mapper.Map<TrainingDbModel>(incomingTraining);
             await _repo.Update(trainingDbModel);

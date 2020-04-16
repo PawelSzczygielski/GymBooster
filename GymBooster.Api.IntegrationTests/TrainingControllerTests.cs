@@ -6,6 +6,7 @@ using GymBooster.Api.DTO;
 using GymBooster.Api.Infrastructure;
 using GymBooster.Api.IntegrationTests.Infrastructure;
 using GymBooster.CommonUtils;
+using MongoDB.Bson;
 using Xunit;
 
 namespace GymBooster.Api.IntegrationTests
@@ -22,7 +23,7 @@ namespace GymBooster.Api.IntegrationTests
         [Fact]
         public async Task Training_Can_Be_Added()
         {
-            var trainingToAdd = new CreateTrainingDTO("Training1", "ExemplaryContent");
+            var trainingToAdd = new TrainingDTO(string.Empty, "Training1");
             // Arrange
             var request = new
             {
@@ -122,15 +123,31 @@ namespace GymBooster.Api.IntegrationTests
         }
 
         [Fact]
+        public async void Put_Can_Add_Training_If_Send_With_Valid_Id()
+        {
+            var id = ObjectId.GenerateNewId();
+            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle");
+            var putRequest = new
+            {
+                Url = $"api/Trainings/{trainingToUpdate.Id}",
+                Body = trainingToUpdate
+            };
+
+            var putResponse =
+                await _httpClient.PutAsync(putRequest.Url, ContentHelper.GetStringContent(putRequest.Body));
+
+            putResponse.EnsureSuccessStatusCode();
+            var putStringContent = await putResponse.Content.ReadAsStringAsync();
+            var updatedTraining = putStringContent.DeserializeJson<TrainingDTO>();
+
+            trainingToUpdate.Should().BeEquivalentTo(updatedTraining);
+        }
+
+        [Fact]
         public async void Series_Can_Be_Added_To_Training()
         {
 
         }
 
-        [Fact]
-        public async void Put_Can_Add_Training_If_Send_With_Valid_Id()
-        {
-
-        }
     }
 }
