@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace GymBooster.Api.DTO
@@ -27,11 +28,18 @@ namespace GymBooster.Api.DTO
             Excercises = new List<ExcerciseDTO>();
         }
 
+     
+
+        public override string ToString()
+        {
+            return $"{Id} | {Title} | {Excercises.Count}";
+        }
+
         public bool Equals(TrainingDTO other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Id == other.Id;
+            return Id == other.Id && Title == other.Title && Excercises.SequenceEqual(other.Excercises);
         }
 
         public override bool Equals(object obj)
@@ -44,12 +52,7 @@ namespace GymBooster.Api.DTO
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id);
-        }
-
-        public override string ToString()
-        {
-            return $"{Id} | {Title}";
+            return HashCode.Combine(Id, Title, Excercises);
         }
     }
 }

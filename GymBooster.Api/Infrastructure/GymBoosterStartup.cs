@@ -30,7 +30,6 @@ namespace GymBooster.Api.Infrastructure
             services.AddSingleton<ITrainingRepository>(repo);
 
             services.AddControllers();
-                //.AddJsonOptions(options => options.JsonSerializerOptions= new JsonSerializerOptions(){});
             
             services.AddSwaggerGen(c =>
             {
@@ -42,8 +41,12 @@ namespace GymBooster.Api.Infrastructure
             });
 
             services.AddAutoMapper(typeof(GymBoosterStartup));
+            services.AddSingleton(provider => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new TrainingMappingProfile(provider.GetService<IMapper>()));
+            }));
         }
-
+        
         [UsedImplicitly]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

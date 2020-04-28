@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -146,8 +147,27 @@ namespace GymBooster.Api.IntegrationTests
         [Fact]
         public async void Series_Can_Be_Added_To_Training()
         {
+            var id = ObjectId.GenerateNewId();
+            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle");
+            trainingToUpdate.Excercises.Add(new ExcerciseDTO("DeadLift")
+            {
+                Series = new List<SeriesDTO> { new SeriesDTO(6, 200, "Too fast")}
+            });
 
+            var putRequest = new
+            {
+                Url = $"api/Trainings/{trainingToUpdate.Id}",
+                Body = trainingToUpdate
+            };
+
+            var putResponse =
+                await _httpClient.PutAsync(putRequest.Url, ContentHelper.GetStringContent(putRequest.Body));
+
+            putResponse.EnsureSuccessStatusCode();
+            var putStringContent = await putResponse.Content.ReadAsStringAsync();
+            var updatedTraining = putStringContent.DeserializeJson<TrainingDTO>();
+
+            updatedTraining.Should().BeEquivalentTo(trainingToUpdate);
         }
-
     }
 }
