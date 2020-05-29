@@ -24,7 +24,7 @@ namespace GymBooster.Api.IntegrationTests
         [Fact]
         public async Task Training_Can_Be_Added()
         {
-            var trainingToAdd = new TrainingDTO(string.Empty, "Training1");
+            var trainingToAdd = new TrainingDTO(string.Empty, "Training1", new List<ExerciseDTO>());
             // Arrange
             var request = new
             {
@@ -50,8 +50,7 @@ namespace GymBooster.Api.IntegrationTests
                 Url = "api/Trainings",
                 Body = new
                 {
-                    Title = "Training1",
-                    Content = "Exemplary content"
+                    Title = "Training1"
                 }
             };
 
@@ -81,8 +80,7 @@ namespace GymBooster.Api.IntegrationTests
                 Url = "api/Trainings",
                 Body = new
                 {
-                    Title = "Training1",
-                    Content = "Exemplary content"
+                    Title = "Training1"
                 }
             };
 
@@ -91,7 +89,7 @@ namespace GymBooster.Api.IntegrationTests
             var postStringContent = await postResponse.Content.ReadAsStringAsync();
             var addedTraining = postStringContent.DeserializeJson<TrainingDTO>();
 
-            TrainingDTO trainingToUpdate = new TrainingDTO(addedTraining.Id, "updatedTitle");
+            TrainingDTO trainingToUpdate = new TrainingDTO(addedTraining.Id, "updatedTitle", new List<ExerciseDTO>());
             var putRequest = new
             {
                 Url = $"api/Trainings/{trainingToUpdate.Id}",
@@ -127,7 +125,7 @@ namespace GymBooster.Api.IntegrationTests
         public async void Put_Can_Add_Training_If_Send_With_Valid_Id()
         {
             var id = ObjectId.GenerateNewId();
-            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle");
+            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle", new List<ExerciseDTO>());
             var putRequest = new
             {
                 Url = $"api/Trainings/{trainingToUpdate.Id}",
@@ -148,12 +146,12 @@ namespace GymBooster.Api.IntegrationTests
         public async void Series_Can_Be_Added_To_Training()
         {
             var id = ObjectId.GenerateNewId();
-            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle");
-            trainingToUpdate.Excercises.Add(new ExcerciseDTO("DeadLift")
+            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle", new List<ExerciseDTO>
             {
-                Series = new List<SeriesDTO> { new SeriesDTO(6, 200, "Too fast")}
+                new ExerciseDTO("DeadLift",
+                    new List<SeriesDTO> {new SeriesDTO(6, 200, "Too fast")})
             });
-
+            
             var putRequest = new
             {
                 Url = $"api/Trainings/{trainingToUpdate.Id}",

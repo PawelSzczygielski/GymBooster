@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace GymBooster.Api.DTO
 {
+    [DebuggerDisplay("{" + nameof(ToString) + "()}")]
     public class SeriesDTO : IEquatable<SeriesDTO>
     {
         public string Comment { get; set; }
@@ -37,6 +39,11 @@ namespace GymBooster.Api.DTO
         public override int GetHashCode()
         {
             return HashCode.Combine(Comment, NumberOfReps, Weight);
+        }
+
+        public override string ToString()
+        {
+            return $"{NumberOfReps} | {Weight} | '{Comment}'";
         }
     }
 }

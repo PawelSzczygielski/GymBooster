@@ -14,32 +14,33 @@ namespace GymBooster.Api.DTO
 
         [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
-        
-        public List<ExcerciseDTO> Excercises { get; set; }
+
+        public List<ExerciseDTO> Exercises { get; set; }
+
 
         protected TrainingDTO()
         {
         }
 
-        public TrainingDTO(string id, string title)
+        public TrainingDTO(string id, string title, List<ExerciseDTO> exercises)
         {
             Id = id;
             Title = title;
-            Excercises = new List<ExcerciseDTO>();
+            Exercises = exercises;
         }
 
      
 
         public override string ToString()
         {
-            return $"{Id} | {Title} | {Excercises.Count}";
+            return $"{Id} | {Title} | {Exercises.Count}";
         }
 
         public bool Equals(TrainingDTO other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Id == other.Id && Title == other.Title && Excercises.SequenceEqual(other.Excercises);
+            return Id == other.Id && Title == other.Title && Exercises.SequenceEqual(other.Exercises);
         }
 
         public override bool Equals(object obj)
@@ -52,7 +53,7 @@ namespace GymBooster.Api.DTO
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Title, Excercises);
+            return HashCode.Combine(Id, Title, Exercises);
         }
     }
 }

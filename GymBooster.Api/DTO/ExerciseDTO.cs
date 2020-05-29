@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace GymBooster.Api.DTO
 {
-    public class ExcerciseDTO : IEquatable<ExcerciseDTO>
+    [DebuggerDisplay("{" + nameof(ToString) + "()}")]
+    public class ExerciseDTO : IEquatable<ExerciseDTO>
     {
         public string Name { get; set; }
         public List<SeriesDTO> Series { get; set; }
 
-        protected ExcerciseDTO()
+        protected ExerciseDTO()
         {
         }
 
-        public ExcerciseDTO(string name)
+        public ExerciseDTO(string name, List<SeriesDTO> series)
         {
             Name = name;
-            Series = new List<SeriesDTO>();
+            Series = series;
         }
 
-        public bool Equals(ExcerciseDTO other)
+        public bool Equals(ExerciseDTO other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -31,12 +33,17 @@ namespace GymBooster.Api.DTO
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ExcerciseDTO) obj);
+            return Equals((ExerciseDTO) obj);
         }
 
         public override int GetHashCode()
         {
             return HashCode.Combine(Name, Series);
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} | {Series.Count}";
         }
     }
 }

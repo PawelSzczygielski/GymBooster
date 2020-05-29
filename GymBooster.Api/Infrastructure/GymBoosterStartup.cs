@@ -1,4 +1,3 @@
-using AutoMapper;
 using GymBooster.DatabaseAccess;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
@@ -39,12 +38,6 @@ namespace GymBooster.Api.Infrastructure
                     Description = "GymBooster API",
                 });
             });
-
-            services.AddAutoMapper(typeof(GymBoosterStartup));
-            services.AddSingleton(provider => new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new TrainingMappingProfile(provider.GetService<IMapper>()));
-            }));
         }
         
         [UsedImplicitly]
