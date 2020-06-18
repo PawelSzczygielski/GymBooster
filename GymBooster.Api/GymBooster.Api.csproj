@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GymBooster.DatabaseAccess\GymBooster.DatabaseAccess.csproj" />
     <ProjectReference Include="..\GymBooster.CommonUtils\GymBooster.CommonUtils.csproj" />
+    <ProjectReference Include="..\GymBooster.DatabaseAccess\GymBooster.DatabaseAccess.csproj" />
   </ItemGroup>
 
 
