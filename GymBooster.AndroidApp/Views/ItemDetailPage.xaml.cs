@@ -1,10 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using GymBooster.AndroidApp.Models;
 using GymBooster.AndroidApp.ViewModels;
+using GymBooster.Common.Objects.DTO;
 
 namespace GymBooster.AndroidApp.Views
 {
@@ -26,11 +24,7 @@ namespace GymBooster.AndroidApp.Views
         {
             InitializeComponent();
 
-            var item = new Item
-            {
-                Text = "Item 1",
-                Description = "This is an item description."
-            };
+            var item = new TrainingDTO("ID", "Title", new List<ExerciseDTO>());
 
             viewModel = new ItemDetailViewModel(item);
             BindingContext = viewModel;

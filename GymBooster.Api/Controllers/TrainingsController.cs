@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using GymBooster.Api.DTO;
 using GymBooster.Api.Infrastructure;
+using GymBooster.Common.Objects.DTO;
 using GymBooster.DatabaseAccess;
 using GymBooster.DatabaseAccess.DbModel;
 using Microsoft.AspNetCore.Mvc;

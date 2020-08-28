@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
 
-namespace GymBooster.CommonUtils
+namespace GymBooster.Common.Utils
 {
     public class CustomDateTimeConverter : DateTimeConverterBase
     {
-        private readonly string _dateFormat = null;
-        private readonly DateTimeConverterBase _innerConverter = null;
+        private readonly string _dateFormat;
+        private readonly DateTimeConverterBase _innerConverter;
 
         public CustomDateTimeConverter() : this(null)
         {

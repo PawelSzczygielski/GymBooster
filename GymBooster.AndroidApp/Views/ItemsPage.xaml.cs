@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using GymBooster.AndroidApp.Models;
-using GymBooster.AndroidApp.Views;
 using GymBooster.AndroidApp.ViewModels;
+using GymBooster.Common.Objects.DTO;
 
 namespace GymBooster.AndroidApp.Views
 {
@@ -30,7 +23,7 @@ namespace GymBooster.AndroidApp.Views
         async void OnItemSelected(object sender, EventArgs args)
         {
             var layout = (BindableObject)sender;
-            var item = (Item)layout.BindingContext;
+            var item = (TrainingDTO)layout.BindingContext;
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
         }
 

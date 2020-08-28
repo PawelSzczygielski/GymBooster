@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace GymBooster.Api.DTO
+namespace GymBooster.Common.Objects.DTO
 {
     [DebuggerDisplay("{" + nameof(ToString) + "()}")]
     public class SeriesDTO : IEquatable<SeriesDTO>
@@ -25,7 +25,7 @@ namespace GymBooster.Api.DTO
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Comment == other.Comment && NumberOfReps == other.NumberOfReps && Weight == other.Weight;
+            return NumberOfReps == other.NumberOfReps && Weight == other.Weight;
         }
 
         public override bool Equals(object obj)
@@ -38,7 +38,10 @@ namespace GymBooster.Api.DTO
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Comment, NumberOfReps, Weight);
+            unchecked
+            {
+                return (NumberOfReps.GetHashCode() * 397) ^ Weight.GetHashCode();
+            }
         }
 
         public override string ToString()

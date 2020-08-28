@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GymBooster.CommonUtils
+namespace GymBooster.Common.Utils
 {
     public class DateTimeModelBinderAttribute : ModelBinderAttribute
     {

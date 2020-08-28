@@ -3,10 +3,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GymBooster.Api.DTO;
 using GymBooster.Api.Infrastructure;
 using GymBooster.Api.IntegrationTests.Infrastructure;
-using GymBooster.CommonUtils;
+using GymBooster.Common.Objects.DTO;
+using GymBooster.Common.Utils;
 using MongoDB.Bson;
 using Xunit;
 

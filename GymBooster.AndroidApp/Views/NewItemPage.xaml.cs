@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using GymBooster.Common.Objects.DTO;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
-using GymBooster.AndroidApp.Models;
 
 namespace GymBooster.AndroidApp.Views
 {
@@ -13,18 +12,14 @@ namespace GymBooster.AndroidApp.Views
     [DesignTimeVisible(false)]
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
+        public TrainingDTO Item { get; set; }
 
         public NewItemPage()
         {
             InitializeComponent();
 
-            Item = new Item
-            {
-                Text = "Item name",
-                Description = "This is an item description."
-            };
-
+            Item = new TrainingDTO("ID", "Title", new List<ExerciseDTO>());
+            
             BindingContext = this;
         }
 
