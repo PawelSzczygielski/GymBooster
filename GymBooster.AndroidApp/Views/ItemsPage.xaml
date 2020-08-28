@@ -14,17 +14,7 @@
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
         <CollectionView x:Name="ItemsCollectionView"
-                ItemsSource="{Binding Items}">
-            <d:CollectionView.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>First Item</x:String>
-                    <x:String>Second Item</x:String>
-                    <x:String>Third Item</x:String>
-                    <x:String>Fourth Item</x:String>
-                    <x:String>Fifth Item</x:String>
-                    <x:String>Sixth Item</x:String>
-                </x:Array>
-            </d:CollectionView.ItemsSource>
+                ItemsSource="{Binding AllTrainings}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">

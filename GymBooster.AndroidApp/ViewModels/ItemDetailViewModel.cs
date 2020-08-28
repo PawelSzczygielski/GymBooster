@@ -1,15 +1,14 @@
-﻿using System;
+﻿using GymBooster.Common.Objects.DTO;
 
-using GymBooster.AndroidApp.Models;
 
 namespace GymBooster.AndroidApp.ViewModels
 {
     public class ItemDetailViewModel : BaseViewModel
     {
-        public Item Item { get; set; }
-        public ItemDetailViewModel(Item item = null)
+        public TrainingDTO Item { get; set; }
+        public ItemDetailViewModel(TrainingDTO item = null)
         {
-            Title = item?.Text;
+            Title = item?.Title;
             Item = item;
         }
     }

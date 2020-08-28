@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GymBooster.CommonUtils
+namespace GymBooster.Common.Utils
 {
     public static class ObjectExtensionMethods
     {

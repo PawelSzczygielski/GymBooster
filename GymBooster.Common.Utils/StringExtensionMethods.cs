@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace GymBooster.CommonUtils
+namespace GymBooster.Common.Utils
 {
     public static class StringExtensionMethods
     {

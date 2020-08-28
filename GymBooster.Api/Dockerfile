@@ -8,7 +8,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["GymBooster.Api/GymBooster.Api.csproj", "GymBooster.Api/"]
-COPY ["GymBooster.CommonUtils/GymBooster.CommonUtils.csproj", "GymBooster.CommonUtils/"]
+COPY ["GymBooster.Common.Utils/GymBooster.Common.Utils.csproj", "GymBooster.Common.Utils/"]
+COPY ["GymBooster.Common.Objects/GymBooster.Common.Objects.csproj", "GymBooster.Common.Objects/"]
 RUN dotnet restore "GymBooster.Api/GymBooster.Api.csproj"
 COPY . .
 WORKDIR "/src/GymBooster.Api"

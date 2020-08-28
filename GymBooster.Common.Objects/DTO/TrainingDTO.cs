@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Newtonsoft.Json;
 
-namespace GymBooster.Api.DTO
+namespace GymBooster.Common.Objects.DTO
 {
     [DebuggerDisplay("{" + nameof(ToString) + "()}")]
     public class TrainingDTO : IEquatable<TrainingDTO>
@@ -40,7 +39,7 @@ namespace GymBooster.Api.DTO
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Id == other.Id && Title == other.Title && Exercises.SequenceEqual(other.Exercises);
+            return Id == other.Id && Title == other.Title && Equals(Exercises, other.Exercises);
         }
 
         public override bool Equals(object obj)
@@ -53,7 +52,14 @@ namespace GymBooster.Api.DTO
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Title, Exercises);
+            unchecked
+            {
+                var hashCode = (Id != null ? Id.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Title != null ? Title.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Exercises != null ? Exercises.GetHashCode() : 0);
+                return hashCode;
+            }
         }
+
     }
 }

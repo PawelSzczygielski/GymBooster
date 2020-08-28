@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace GymBooster.Api.DTO
+namespace GymBooster.Common.Objects.DTO
 {
     [DebuggerDisplay("{" + nameof(ToString) + "()}")]
     public class ExerciseDTO : IEquatable<ExerciseDTO>
@@ -38,9 +38,12 @@ namespace GymBooster.Api.DTO
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Series);
+            unchecked
+            {
+                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (Series != null ? Series.GetHashCode() : 0);
+            }
         }
-
+      
         public override string ToString()
         {
             return $"{Name} | {Series.Count}";

@@ -15,12 +15,8 @@ namespace GymBooster.Api.IntegrationTests.Infrastructure
 {
     public class TestConfigurator<TStartup> : IDisposable
     {
-        private TestServer _testServer;
+        private readonly TestServer _testServer;
         public HttpClient HttpClient { get; }
-
-        public TestConfigurator() : this(Path.Combine(string.Empty))
-        {
-        }
 
         protected TestConfigurator(string relativeTargetProjectParentDirectory)
         {
@@ -66,7 +62,7 @@ namespace GymBooster.Api.IntegrationTests.Infrastructure
             services.AddSingleton(manager);
         }
 
-        public static string GetProjectPath(string projectRelativePath, Assembly startupAssembly)
+        private static string GetProjectPath(string projectRelativePath, Assembly startupAssembly)
         {
             string projectName = startupAssembly.GetName().Name;
             string applicationBasePath = AppContext.BaseDirectory;
@@ -88,7 +84,7 @@ namespace GymBooster.Api.IntegrationTests.Infrastructure
                         return fullProjectFolderPath;
                     }
                 }
-            } while (currentDirectoryInfo.Parent != null);
+            } while (currentDirectoryInfo?.Parent != null);
 
             throw new DirectoryNotFoundException($"Project root could not be located using the application root {applicationBasePath}.");
         }

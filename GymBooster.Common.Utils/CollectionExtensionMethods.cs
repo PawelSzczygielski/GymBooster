@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GymBooster.CommonUtils
+namespace GymBooster.Common.Utils
 {
     public static class CollectionExtensionMethods
     {

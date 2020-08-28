@@ -1,7 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using GymBooster.AndroidApp.Services;
+﻿using Xamarin.Forms;
 using GymBooster.AndroidApp.Views;
 
 namespace GymBooster.AndroidApp
@@ -13,7 +10,7 @@ namespace GymBooster.AndroidApp
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            //DependencyService.Register<MockDataStore>();
             MainPage = new MainPage();
         }
 
