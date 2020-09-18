@@ -17,7 +17,7 @@ namespace GymBooster.Common.Objects.DTO
         public List<ExerciseDTO> Exercises { get; set; }
 
 
-        protected TrainingDTO()
+        public TrainingDTO()
         {
         }
 

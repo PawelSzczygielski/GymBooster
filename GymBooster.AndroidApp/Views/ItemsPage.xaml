@@ -14,17 +14,17 @@
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
         <CollectionView x:Name="ItemsCollectionView"
-                ItemsSource="{Binding AllTrainings}">
+                ItemsSource="{Binding Items}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
-                        <Label Text="{Binding Text}" 
+                        <Label Text="{Binding Id}" 
                                 d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16" />
-                        <Label Text="{Binding Description}" 
-                                d:Text="Item descripton"
+                        <Label Text="{Binding Title}" 
+                                d:Text="Item title"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />

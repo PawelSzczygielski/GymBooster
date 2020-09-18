@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using GymBooster.AndroidApp.Services;
+using GymBooster.Common.Objects.DTO;
+using Xamarin.Forms;
 
 namespace GymBooster.AndroidApp.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        //public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public BaseViewModel()
+        {
+            DependencyService.Register<MockDataStore>();
+            DataStore = DependencyService.Get<IDataStore<TrainingDTO>>();
+        }
+
+        public IDataStore<TrainingDTO> DataStore { get; }
 
         bool isBusy = false;
         public bool IsBusy
