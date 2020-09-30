@@ -27,16 +27,24 @@ namespace GymBooster.AndroidApp.Services
 
         public async Task<TrainingDTO> GetItemAsync(string id)
         {
+            var httpClientHandler = new HttpClientHandler();
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            var httpClient = new HttpClient(httpClientHandler);
 
-            var HttpClient = new HttpClient();
-            HttpClient.BaseAddress = new Uri("https://10.0.2.2:5001/gymbooster/");
-            HttpClient.DefaultRequestHeaders.Accept.Clear();
-            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var getRequestPath = $"api/Trainings/";
-
-            HttpResponseMessage getResponse = await HttpClient.GetAsync(getRequestPath);
-
-            return null;
+            try
+            {
+                HttpResponseMessage getResponse =
+                    await httpClient.GetAsync(new Uri($"https://10.0.2.2:32768/api/Trainings/{id}"));
+                getResponse.EnsureSuccessStatusCode();
+                string stringGetResponse = await getResponse.Content.ReadAsStringAsync();
+                var obtainedTraining = stringGetResponse.DeserializeJson<TrainingDTO>();
+                return obtainedTraining;
+            }
+            catch (Exception ex)
+            {
+                //TODO: make this exception less general + move hadling into upper code.
+                return null;
+            }
         }
 
         public async Task<IEnumerable<TrainingDTO>> GetItemsAsync(bool forceRefresh = false)
@@ -51,14 +59,14 @@ namespace GymBooster.AndroidApp.Services
                     await httpClient.GetAsync(new Uri("https://10.0.2.2:32768/api/Trainings/"));
                 getResponse.EnsureSuccessStatusCode();
                 string stringGetResponse = await getResponse.Content.ReadAsStringAsync();
-                var obtainedTraining = stringGetResponse.DeserializeJson<List<TrainingDTO>>();
+                var obtainedTrainings = stringGetResponse.DeserializeJson<List<TrainingDTO>>();
+                return obtainedTrainings;
             }
             catch (Exception ex)
             {
-
+                //TODO: make this exception less general + move hadling into upper code.
+                return new List<TrainingDTO>();
             }
-
-            return null;
         }
     }
 }
