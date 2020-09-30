@@ -12,7 +12,7 @@ namespace GymBooster.AndroidApp.ViewModels
     {
         public BaseViewModel()
         {
-            DependencyService.Register<MockDataStore>();
+            DependencyService.Register<GymBoosterDataStore>();
             DataStore = DependencyService.Get<IDataStore<TrainingDTO>>();
         }
 
