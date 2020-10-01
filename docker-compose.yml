@@ -10,6 +10,10 @@ services:
        MongoDB__Host: mongo
     depends_on:
         - mongo
+    ports:
+        - "32774:80"
+        - "32775:443"
+        
 
   mongo:
     image: mongo
@@ -19,6 +23,12 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
        - 27017:27017
+    volumes:
+       - type: volume
+         source: GymBoosterMongoDb
+         target: /data/db
+         volume:
+           nocopy: true
 
   mongo-express:
     image: mongo-express
@@ -30,3 +40,5 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
     depends_on:
       - mongo
+volumes:
+  GymBoosterMongoDb:
