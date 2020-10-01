@@ -50,13 +50,13 @@ namespace GymBooster.AndroidApp.Services
         public async Task<IEnumerable<TrainingDTO>> GetItemsAsync(bool forceRefresh = false)
         {
             var httpClientHandler = new HttpClientHandler();
-            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true; //TODO: this true should probably be removed
             var httpClient = new HttpClient(httpClientHandler);
             
             try
             {
                 HttpResponseMessage getResponse =
-                    await httpClient.GetAsync(new Uri("https://10.0.2.2:32768/api/Trainings/"));
+                    await httpClient.GetAsync(new Uri("https://10.0.2.2:32775/api/Trainings/"));
                 getResponse.EnsureSuccessStatusCode();
                 string stringGetResponse = await getResponse.Content.ReadAsStringAsync();
                 var obtainedTrainings = stringGetResponse.DeserializeJson<List<TrainingDTO>>();
