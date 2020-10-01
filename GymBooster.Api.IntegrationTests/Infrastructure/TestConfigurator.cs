@@ -18,7 +18,11 @@ namespace GymBooster.Api.IntegrationTests.Infrastructure
         private readonly TestServer _testServer;
         public HttpClient HttpClient { get; }
 
-        protected TestConfigurator(string relativeTargetProjectParentDirectory)
+        public TestConfigurator() : this(Path.Combine(string.Empty))
+        {
+        }
+
+        private TestConfigurator(string relativeTargetProjectParentDirectory)
         {
             Assembly startupAssembly = typeof(TStartup).GetTypeInfo().Assembly;
             string contentRoot = GetProjectPath(relativeTargetProjectParentDirectory, startupAssembly);
