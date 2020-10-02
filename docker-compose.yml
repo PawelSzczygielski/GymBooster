@@ -12,8 +12,7 @@ services:
         - mongo
     ports:
         - "32774:80"
-        - "32775:443"
-        
+        - "32775:443"      
 
   mongo:
     image: mongo
@@ -27,6 +26,11 @@ services:
        - type: volume
          source: GymBoosterMongoDb
          target: /data/db
+         volume:
+           nocopy: true
+       - type: volume
+         source: GymBoosterMongoDb
+         target: /data/configdb
          volume:
            nocopy: true
 
