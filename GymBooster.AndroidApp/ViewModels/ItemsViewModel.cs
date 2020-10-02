@@ -20,6 +20,7 @@ namespace GymBooster.AndroidApp.ViewModels
             Title = "Browse";
             Items = new ObservableCollection<TrainingDTO>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand.Execute(null);
 
             MessagingCenter.Subscribe<NewItemPage, TrainingDTO>(this, "AddItem", async (obj, item) =>
             {
