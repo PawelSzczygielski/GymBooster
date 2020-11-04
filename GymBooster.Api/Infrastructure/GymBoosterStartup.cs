@@ -26,8 +26,8 @@ namespace GymBooster.Api.Infrastructure
 
             var trainingContext = new TrainingContext(config.MongoDb);
             var repo = new TrainingRepository(trainingContext);
+            InitialDataProvider.AddData(trainingContext);
             services.AddSingleton<ITrainingRepository>(repo);
-
             services.AddControllers();
             
             services.AddSwaggerGen(c =>
@@ -66,4 +66,6 @@ namespace GymBooster.Api.Infrastructure
             });
         }
     }
+
+
 }
