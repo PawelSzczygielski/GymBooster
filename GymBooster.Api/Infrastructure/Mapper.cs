@@ -15,7 +15,7 @@ namespace GymBooster.Api.Infrastructure
 
         public static TrainingDTO Map(TrainingDbModel training)
         {
-            return new TrainingDTO(training.Id.ToString(), training.Title, Map(training.Excercises));
+            return new TrainingDTO(training.Id.ToString(), training.Title, training.CreatedOnUtc.ToUniversalTime(), Map(training.Excercises));
         }
 
         private static List<ExerciseDTO> Map(List<ExerciseDbModel> exercises)
@@ -40,7 +40,7 @@ namespace GymBooster.Api.Infrastructure
 
         public static TrainingDbModel Map(TrainingDTO training)
         {
-            return new TrainingDbModel(training.Id, training.Title, Map(training.Exercises));
+            return new TrainingDbModel(training.Id, training.Title, training.CreatedOnUtc, Map(training.Exercises));
         }
 
         private static List<ExerciseDbModel> Map(List<ExerciseDTO> trainingExercises)

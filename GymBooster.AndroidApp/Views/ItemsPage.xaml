@@ -18,7 +18,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
-                        <Label Text="{Binding Id}" 
+                        <Label Text="{Binding CreatedOnUtc, StringFormat='{0:MMMM dd, yyyy}'}" 
                                 d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 

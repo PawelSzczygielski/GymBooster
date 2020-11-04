@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -11,6 +12,7 @@ namespace GymBooster.DatabaseAccess.DbModel
         [BsonId]
         public ObjectId Id { get; set; }
         public string Title { get; set; }
+        public BsonDateTime CreatedOnUtc { get; set; }
         public List<ExerciseDbModel> Excercises { get; set; }
 
         protected TrainingDbModel()
@@ -18,11 +20,12 @@ namespace GymBooster.DatabaseAccess.DbModel
             Excercises = new List<ExerciseDbModel>();
         }
 
-        public TrainingDbModel(string id, string title, List<ExerciseDbModel> excercises) : this()
+        public TrainingDbModel(string id, string title, DateTime createdOnUtc, List<ExerciseDbModel> excercises) : this()
         {
             var parsingOk = ObjectId.TryParse(id, out ObjectId parsedId);
             Id = parsingOk ? parsedId : ObjectId.Empty;
             Title = title;
+            CreatedOnUtc = createdOnUtc;
             Excercises = excercises ?? new List<ExerciseDbModel>();
         }
 

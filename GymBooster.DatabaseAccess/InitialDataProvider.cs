@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GymBooster.DatabaseAccess.DbModel;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -9,13 +10,10 @@ namespace GymBooster.DatabaseAccess
     {
         public static void AddData(ITrainingContext trainingContext)
         {
-            var documentsCount = trainingContext.Trainings.CountDocuments(FilterDefinition<TrainingDbModel>.Empty);
-            if (documentsCount > 0)
-                return;
-
+            trainingContext.Trainings.DeleteMany(FilterDefinition<TrainingDbModel>.Empty);
             trainingContext.Trainings.InsertMany(new List<TrainingDbModel>
             {
-                new TrainingDbModel(ObjectId.GenerateNewId(1).ToString(), "Legs", new List<ExerciseDbModel>
+                new TrainingDbModel(ObjectId.GenerateNewId(1).ToString(), "Legs", new DateTime(2020,10,15, 19, 2, 23),  new List<ExerciseDbModel>
                 {
                     new ExerciseDbModel("Squat", new List<SeriesDbModel>
                     {
@@ -35,7 +33,7 @@ namespace GymBooster.DatabaseAccess
                     })
                 }),
 
-                new TrainingDbModel(ObjectId.GenerateNewId(1).ToString(), "Chest", new List<ExerciseDbModel>
+                new TrainingDbModel(ObjectId.GenerateNewId(1).ToString(), "Chest", new DateTime(2020,10,16, 18, 14, 8), new List<ExerciseDbModel>
                 {
                     new ExerciseDbModel("Bench press", new List<SeriesDbModel>
                     {

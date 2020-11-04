@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -24,7 +25,9 @@ namespace GymBooster.Api.IntegrationTests
         [Fact]
         public async Task Training_Can_Be_Added()
         {
-            var trainingToAdd = new TrainingDTO(string.Empty, "Training1", new List<ExerciseDTO>());
+            var createdOnUtc = new DateTime(2020, 10, 14, 21, 04, 32, DateTimeKind.Utc);
+
+            var trainingToAdd = new TrainingDTO(string.Empty, "Training1", createdOnUtc, new List<ExerciseDTO>());
             // Arrange
             var request = new
             {
@@ -89,7 +92,8 @@ namespace GymBooster.Api.IntegrationTests
             var postStringContent = await postResponse.Content.ReadAsStringAsync();
             var addedTraining = postStringContent.DeserializeJson<TrainingDTO>();
 
-            TrainingDTO trainingToUpdate = new TrainingDTO(addedTraining.Id, "updatedTitle", new List<ExerciseDTO>());
+            var createdOnUtc = new DateTime(2020, 10, 14, 21, 04, 32, DateTimeKind.Utc);
+            TrainingDTO trainingToUpdate = new TrainingDTO(addedTraining.Id, "updatedTitle", createdOnUtc, new List<ExerciseDTO>());
             var putRequest = new
             {
                 Url = $"api/Trainings/{trainingToUpdate.Id}",
@@ -124,8 +128,10 @@ namespace GymBooster.Api.IntegrationTests
         [Fact]
         public async void Put_Can_Add_Training_If_Send_With_Valid_Id()
         {
+            var createdOnUtc = new DateTime(2020, 10, 14, 21, 04, 32, DateTimeKind.Utc);
+
             var id = ObjectId.GenerateNewId();
-            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle", new List<ExerciseDTO>());
+            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle", createdOnUtc, new List<ExerciseDTO>());
             var putRequest = new
             {
                 Url = $"api/Trainings/{trainingToUpdate.Id}",
@@ -145,8 +151,10 @@ namespace GymBooster.Api.IntegrationTests
         [Fact]
         public async void Series_Can_Be_Added_To_Training()
         {
+            var createdOnUtc = new DateTime(2020, 10, 14, 21, 04, 32, DateTimeKind.Utc);
+
             var id = ObjectId.GenerateNewId();
-            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle", new List<ExerciseDTO>
+            TrainingDTO trainingToUpdate = new TrainingDTO(id.ToString(), "updatedTitle", createdOnUtc, new List<ExerciseDTO>
             {
                 new ExerciseDTO("DeadLift",
                     new List<SeriesDTO> {new SeriesDTO(6, 200, "Too fast")})

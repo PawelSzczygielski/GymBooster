@@ -18,7 +18,7 @@ namespace GymBooster.AndroidApp.Views
         {
             InitializeComponent();
 
-            Item = new TrainingDTO("ID", "Title", new List<ExerciseDTO>());
+            Item = new TrainingDTO("ID", "Title", DateTime.UtcNow, new List<ExerciseDTO>());
             
             BindingContext = this;
         }
