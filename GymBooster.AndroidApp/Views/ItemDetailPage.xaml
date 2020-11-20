@@ -5,13 +5,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="GymBooster.AndroidApp.Views.ItemDetailPage"
+             xmlns:converter="clr-namespace:GymBooster.AndroidApp.Converters"
              Title="{Binding Title}">
-
+<ContentPage.Resources>
+    <ResourceDictionary>
+        <converter:ExerciseSeriesToStringConverter x:Key="ExerciseSeriesToStringConverter" />
+    </ResourceDictionary>
+</ContentPage.Resources>
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Item.Text}" d:Text="Item name" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
+        <Label Text="{Binding Item.CreatedOnUtc, StringFormat='{0:MMMM dd, yyyy}'}" 
+               LineBreakMode="NoWrap" 
+               Style="{DynamicResource ListItemTextStyle}" 
+               FontSize="16" />
+        <Label Text="{Binding Item.Title}" 
+               LineBreakMode="NoWrap" 
+               Style="{DynamicResource ListItemTextStyle}" 
+               FontSize="16" />
+        <ListView ItemsSource="{Binding Item.Exercises}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Spacing="5">
+                                <Label Text="{Binding Name}" FontSize="20"/>
+                                <Label Text="{Binding ., Converter={StaticResource ExerciseSeriesToStringConverter}}" />
+                             </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
-    
 </ContentPage>
